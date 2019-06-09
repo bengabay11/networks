@@ -11,5 +11,5 @@ PACKET_TIMEOUT = 5
 MAX_HOPS_MESSAGE = "Maximum hops: "
 TRACE_MESSAGE = "Tracing route to: "
 INVALID_ADDRESS_MESSAGE = "Invalid Address."
-INVALID_ARGUMENTS_MESSAGE = "Usage: python traceroute.py [Address]"
+INVALID_ARGUMENTS_MESSAGE = "Usage: python app.py [Address]"
 REQUEST_TIME_OUT_MESSAGE = "Request Time Out."
