@@ -1,5 +1,5 @@
 from scapy.all import *
-import config
+from port_scanning import config
 
 
 def main():
