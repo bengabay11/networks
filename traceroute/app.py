@@ -1,6 +1,5 @@
 from scapy.all import *
-from traceroute import config
-from traceroute import validator
+from traceroute import config, validator
 
 
 def send_packet(address, ttl_index):
@@ -24,7 +23,7 @@ def trace(address):
             if response_packet[ICMP].type != config.TTL_EXCEED:
                 break
         else:
-            print(str(current_hop) + ")  " + config.REQUEST_TIME_OUT_MESSAGE)
+            print((str(current_hop) + ")  " + config.REQUEST_TIME_OUT_MESSAGE))
 
         ttl_index += 1
         current_hop += 1
