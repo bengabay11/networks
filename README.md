@@ -9,14 +9,9 @@ Useful network scripts written in python.
 3. [Installation](#installation)
 4. [Scripts](#scripts)
     * [Arp Spoofing](#arp-spoofing)
-        - [description](#arp-spoofing-description)
-        - [usage](#arp-spoofing-usage)
     * [Traceroute](#traceroute)
-        - [description](#traceroute-description)
-        - [usage](#traceroute-usage)
     * [Port Scanning](#port-scanning)
-        - [description](#port-scanning-description)
-        - [usage](#port-scanning-usage)
+    * [Ping](#ping)
 
 
 <a name="installation"></a>
@@ -31,9 +26,7 @@ $ pip install -r requiments.txt
 
 <a name="arp-spoofing"></a>
 ### Arp Spoofing
-<a name="arp-spoofing-description"></a>
 Description will come soon.
-<a name="arp-spoofing-usage"></a>
 #### Usage
 ```
 $ cd arp_spoofing
@@ -42,9 +35,7 @@ $ python arps.py <host to attack> <host to impersonate>
 
 <a name="traceroute"></a>
 ### Traceroute
-<a name="traceroute-description"></a>
 A simple implementation of the tracert command using the scapy package.
-<a name="traceroute-usage"></a>
 #### Usage
 ```
 $ cd traceroute
@@ -53,11 +44,18 @@ $ python app.py <host>
 
 <a name="#port-scanning"></a>
 ### Port Scanning
-<a name="port-scanning-description"></a>
 Description will come soon.
-<a name="port-scanning-usage"></a>
 #### Usage
 ```
 $ cd port_scanning
 $ python app.py
+```
+
+<a name="#ping"></a>
+### Ping
+Description will come soon.
+#### Usage
+```
+$ cd ping
+$ python app.py [-h] [-c --count] [-i --ttl] [-t --timeout] <target_host>
 ```
