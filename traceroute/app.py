@@ -1,5 +1,6 @@
 from scapy.all import *
-from traceroute import config, validator
+import config
+import validator
 
 
 def send_packet(address, ttl_index):

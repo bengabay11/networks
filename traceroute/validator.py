@@ -1,4 +1,4 @@
-from traceroute import config
+import config
 import requests
 
 
