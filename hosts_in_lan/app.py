@@ -36,7 +36,6 @@ def main():
     print(config.OPENING_MESSAGE.format(router))
     hosts_up = get_hosts_in_lan(router)
     print(config.HOSTS_IN_LAN_MESSAGE.format(time=datetime.now()))
-    print(datetime.now())
     for host in hosts_up:
         print(host)
 
