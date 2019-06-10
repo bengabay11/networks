@@ -1,7 +1,7 @@
 import msvcrt
 from scapy.all import *
 import threading
-from arp_spoofing import config
+import config
 from datetime import datetime
 import os
 import time
