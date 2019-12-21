@@ -35,7 +35,7 @@ def arp_spoofing(target, gateway, interval=1, verbose=True, timeout=None, max_pa
     :param interval: (optional) time in seconds to wait between each packet. default=1
     :param verbose: (optional) print output. default=False
     :param timeout: (optional) max time in seconds to perform the attack. default=None
-    :param max_packets: (optional) The maximum number of bruises to be sent until the attack stops. default=None
+    :param max_packets: (optional) The maximum number of packets to be sent until the attack stops. default=None
     """
     target_packet = Ether() / ARP(op=WHO_HAS_REQUEST, psrc=gateway, pdst=target)
     gateway_packet = Ether() / ARP(op=IS_AT_REQUEST, psrc=target, pdst=gateway)
