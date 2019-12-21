@@ -18,7 +18,7 @@ def ping(host, count=5, ttl=50, timeout=5, verbose=False):
     :param ttl: (optional) Time To Live for each packet. default=50
     :param timeout: (optional) timeout in seconds. default=5
     :param verbose: (optional) print output. default=True
-    :return: whether the host responded to one of the packets sent to him.
+    :return: whether the host responded to one of the packets that sent to him.
     :rtype: bool
     """
     host_responded = False
