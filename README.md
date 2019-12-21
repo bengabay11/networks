@@ -1,61 +1,69 @@
-<a name="network-scripts"></a>
-# network-scripts
-Useful network scripts written in python.
+<a name="networks"></a>
+# networks
+Python Network Operations for Humans
 
 <a name="table-of-contents"></a>
 ## Table of contents
-1. [network-scripts](#network-scripts)
+1. [networks](#networks)
 2. [Table of contents](#table-of-contents)
-3. [Installation](#installation)
-4. [Scripts](#scripts)
-    * [Arp Spoofing](#arp-spoofing)
+4. [Examples](#examples)
     * [Traceroute](#traceroute)
+    * [Arp Spoofing](#arp-spoofing)
     * [Port Scanning](#port-scanning)
     * [Ping](#ping)
 
-
-<a name="installation"></a>
-## Installation
-Clone the repository and install all dependencies
-```
-$ pip install -r requiments.txt
-```
-
-<a name="scripts"></a>
-## Scripts
-
-<a name="arp-spoofing"></a>
-### Arp Spoofing
-Description will come soon.
-#### Usage
-```
-$ cd arp_spoofing
-$ python arps.py <host to attack> <host to impersonate>
-```
+<a name="examples"></a>
+## Examples
 
 <a name="traceroute"></a>
 ### Traceroute
-A simple implementation of the tracert command using the scapy package.
-#### Usage
+Perform trace to the given host.
 ```
-$ cd traceroute
-$ python app.py <host>
+>>> import networks
+>>> stations = networks.trace("www.google.com", max_hops=20, timeout=5, verbose=False)
+>>> for station in stations:
+>>>     print(station)
 ```
+
+<a name="arp-spoofing"></a>
+### Arp Spoofing
+Perform arp spoofing attack on the given target.
+```
+>>> import networks
+>>> target = "192.168.1.40"
+>>> gateway = "192.168.1.1"
+>>> networks.arp_spoofing(target, gateway, interval=1, timeout=120)
+```
+
 
 <a name="#port-scanning"></a>
 ### Port Scanning
-Description will come soon.
-#### Usage
+Perform port scanning on the given target.
 ```
-$ cd port_scanning
-$ python app.py
+>>> import networks
+>>> ports = networks.port_scanning("192.168.1.40", min_port=1, max_port=100, timeout=30)
+>>> for (port_number, is_open) in ports:
+>>>     if is_open:
+>>>         print("Discoverd open port: {port}")
 ```
 
 <a name="#ping"></a>
 ### Ping
-Description will come soon.
-#### Usage
+Send ICMP packets to the given host.
 ```
-$ cd ping
-$ python app.py [-h] [-c --count] [-i --ttl] [-t --timeout] <target_host>
+>>> import networks
+>>> host_responded = networks.ping("www.google.com", count=5, ttl=30, timeout=5)
+>>> if host_responded:
+>>> print("host: {host} is up!")
+```
+
+<a name="#ping"></a>
+### Hosts in segment
+get hosts inside a given segment.
+```
+>>> import networks
+>>> hosts = networks.get_hosts_in_segment("192.168.1.0")
+>>> print(f"{len(hosts)} hosts found.")
+>>> for host in hosts:
+>>> print(f"- {host}")
 ```
