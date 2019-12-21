@@ -32,21 +32,29 @@ def seconds_to_ms(seconds):
     return seconds / 60 * 1000
 
 
-def trace(address, max_hops=None, timeout=5):
+def trace(host, max_hops=None, timeout=5):
+    """Perform trace to the given host.
+
+    :param host: host to trace.
+    :param max_hops: maximum number of hops to search for target. default=None
+    :param timeout: (optional) Wait timeout seconds for each reply. default=5
+    :return: list of the hops
+    :rtype: list
+    """
     ttl = 1
-    hops = []
+    stations = []
     while ttl <= max_hops:
         start_time = time.time()
-        response_packet = hop(address, ttl, timeout)
+        response_packet = hop(host, ttl, timeout)
         final_time = time.time() - start_time
         if response_packet:
             ip = get_ip_from_packet(response_packet)
-            hops.append(ip)
+            stations.append(ip)
             print_status_message(True, ttl, final_time, ip)
             if reach_host(response_packet):
                 break
         else:
-            hops.append(None)
+            stations.append(None)
             print_status_message(False, ttl)
         ttl += 1
-    return hops
+    return stations
