@@ -41,11 +41,10 @@ Perform arp spoofing attack on the given target.
 Perform port scanning on the given target.
 ```
 >>> import networks
->>> target = "192.168.1.40"
->>> ports = networks.port_scanning(target, min_port=1, max_port=100, timeout=30)
+>>> ports = networks.port_scanning("192.168.1.40", min_port=1, max_port=100, timeout=30)
 >>> for (port_number, is_open) in ports:
->>>     print(f"port: {port}")
->>>     print("open!") if is_open else print("close")
+>>>     if is_open:
+>>>         print("Discoverd open port: {port}")
 ```
 
 <a name="#ping"></a>
@@ -53,8 +52,7 @@ Perform port scanning on the given target.
 Send ICMP packets to the given host.
 ```
 >>> import networks
->>> host = "www.google.com"
->>> host_responded = networks.ping(host, count=5, ttl=30, timeout=5)
+>>> host_responded = networks.ping("www.google.com", count=5, ttl=30, timeout=5)
 >>> if host_responded:
 >>> print("host: {host} is up!")
 ```
