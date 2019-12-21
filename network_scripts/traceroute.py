@@ -32,7 +32,7 @@ def seconds_to_ms(seconds):
     return seconds / 60 * 1000
 
 
-def trace(host, max_hops=None, timeout=5, verbose=True):
+def trace(host, max_hops=30, timeout=5, verbose=True):
     """Perform trace to the given host.
 
     :param host: host to trace.
