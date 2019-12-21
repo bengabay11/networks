@@ -1,47 +1,52 @@
 from scapy.all import *
-import config
-import validator
 
 
-def send_packet(address, ttl_index):
-    my_packet = IP(dst=address, ttl=ttl_index) / ICMP(type=config.PACKET_TYPE)
-    response_packet = sr1(my_packet, timeout=config.PACKET_TIMEOUT, verbose=config.PACKET_VERBOSE)
-
-    return response_packet
+PACKET_TYPE = "echo-request"
+TTL_EXCEED = 11
+PACKET_VERBOSE = 0
 
 
-def trace(address):
-    ttl_index = 1
-    current_hop = 1
-    print(config.MAX_HOPS_MESSAGE + str(config.MAX_HOPS))
-    while True:
+def hop(address, ttl, timeout):
+    my_packet = IP(dst=address, ttl=ttl) / ICMP(type=PACKET_TYPE)
+    return sr1(my_packet, timeout=timeout, verbose=PACKET_VERBOSE)
+
+
+def get_ip_from_packet(packet):
+    return packet[IP].src
+
+
+def print_status_message(success, ttl, response_time=None, ip=None):
+    if success:
+        response_ms_time = seconds_to_ms(response_time)
+        message = f"{ttl})  {response_ms_time} ms {ip}"
+    else:
+        message = f"{ttl}) Request Time Out."
+    print(message)
+
+
+def reach_host(response_packet):
+    return response_packet[ICMP].type != TTL_EXCEED
+
+
+def seconds_to_ms(seconds):
+    return seconds / 60 * 1000
+
+
+def trace(address, max_hops=None, timeout=5):
+    ttl = 1
+    hops = []
+    while ttl <= max_hops:
         start_time = time.time()
-        response_packet = send_packet(address, ttl_index)
-        final_time = (time.time() - start_time) / 60 * 1000
-        if response_packet is not None:
-            print("{index})  {time} ms {packet_src}".format(
-                index=str(current_hop), time=str(int(final_time)), packet_src=response_packet[IP].src))
-            if response_packet[ICMP].type != config.TTL_EXCEED:
+        response_packet = hop(address, ttl, timeout)
+        final_time = time.time() - start_time
+        if response_packet:
+            ip = get_ip_from_packet(response_packet)
+            hops.append(ip)
+            print_status_message(True, ttl, final_time, ip)
+            if reach_host(response_packet):
                 break
         else:
-            print((str(current_hop) + ")  " + config.REQUEST_TIME_OUT_MESSAGE))
-
-        ttl_index += 1
-        current_hop += 1
-
-
-def main():
-    if len(sys.argv) == 2:
-        address = sys.argv[1]
-        if validator.validate_ip(address) or validator.validate_url(address):
-            print("{newline}{trace_message}{address}"
-                  .format(newline=os.linesep, trace_message=config.TRACE_MESSAGE, address=address))
-            trace(address)
-        else:
-            sys.exit(config.INVALID_ADDRESS_MESSAGE)
-    else:
-        print(config.INVALID_ARGUMENTS_MESSAGE)
-
-
-if __name__ == '__main__':
-    main()
+            hops.append(None)
+            print_status_message(False, ttl)
+        ttl += 1
+    return hops
