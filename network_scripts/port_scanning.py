@@ -34,7 +34,8 @@ def port_scanning(target, min_port=1, max_port=65536, timeout=None, verbose=True
     :param max_port: (optional) the ending port. default=65536
     :param timeout: (optional) max time in seconds to perform the scan. default=None
     :param verbose: (optional) print output. default=True
-    :return: Dictionary. e.g.: { "22": False, "80": True }
+    :return: dictionary of ports. e.g: { "22": False, "80": True }
+    :rtype: dict
     """
     ports = {}
     start_time = datetime.datetime.now()
