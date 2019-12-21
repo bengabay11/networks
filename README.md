@@ -56,3 +56,11 @@ Send ICMP packets to the given host.
 >>> if host_responded:
 >>> print("host: {host} is up!")
 ```
+
+```
+>>> segment = "192.168.1.0"
+>>> hosts = networksget_hosts_in_segment(segment, timeout=5, retry=3)
+>>> print(f"{len(hosts)} hosts found.")
+>>> for host in hosts:
+>>> print(f"- {host}")
+```
