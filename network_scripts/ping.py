@@ -27,10 +27,11 @@ def ping(host, count=5, ttl=50, timeout=5, verbose=False):
         response_packet = send_icmp_packet(host, timeout, ttl)
         end_time = time.time()
         response_time = int(end_time-start_time)
+        if response_packet:
+            host_responded = True
+            message = f"Reply from {host}: time={response_time}s TTL={ttl}"
+        else:
+            message = "Request timed out."
         if verbose:
-            if response_packet:
-                host_responded = True
-                print(f"Reply from {host}: time={response_time}s TTL={ttl}")
-            else:
-                print("Request timed out.")
+            print(message)
     return host_responded
