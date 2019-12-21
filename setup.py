@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Ben Gabay",
     author_email="ben.gabay38@gmail.com",
-    description="Python Network operations for humans",
+    description="Python Network Operations for Humans",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/bengabay11/networks",

@@ -1,10 +1,10 @@
 <a name="networks"></a>
 # networks
-Python Network operations for humans
+Python Network Operations for Humans
 
 <a name="table-of-contents"></a>
 ## Table of contents
-1. [network-scripts](#networks)
+1. [networks](#networks)
 2. [Table of contents](#table-of-contents)
 4. [Examples](#examples)
     * [Traceroute](#traceroute)
@@ -57,9 +57,13 @@ Send ICMP packets to the given host.
 >>> print("host: {host} is up!")
 ```
 
+<a name="#ping"></a>
+### Hosts in segment
+get hosts inside a given segment.
 ```
+>>> import networks
 >>> segment = "192.168.1.0"
->>> hosts = networksget_hosts_in_segment(segment, timeout=5, retry=3)
+>>> hosts = networks.get_hosts_in_segment(segment, timeout=5, retry=3)
 >>> print(f"{len(hosts)} hosts found.")
 >>> for host in hosts:
 >>> print(f"- {host}")
