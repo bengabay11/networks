@@ -27,8 +27,8 @@ def timeout_override(start_time, timeout):
 
 
 def port_scanning(target, min_port=1, max_port=65536, timeout=None, verbose=True):
-    """
-    Perform port scanning on the given target.
+    """Perform port scanning on the given target.
+    
     :param target: target to scan.
     :param min_port: (optional) the starting port. default=1
     :param max_port: (optional) the ending port. default=65536

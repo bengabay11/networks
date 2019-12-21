@@ -28,8 +28,8 @@ def print_status_message(packets_count, target):
 
 
 def arp_spoofing(target, gateway, interval=1, verbose=True, timeout=None, max_packets=None):
-    """
-    Perform an arp spoofing attack on the given target.
+    """Perform an arp spoofing attack on the given target.
+
     :param target: target ip to attack.
     :param gateway: gateway ip to impersonate.
     :param interval: (optional) time in seconds to wait between each packet. default=1
