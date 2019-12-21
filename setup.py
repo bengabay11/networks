@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="network-scrips",
+    name="network_scrips",
     version="0.0.1",
     author="Ben Gabay",
     author_email="ben.gabay38@example.com",
