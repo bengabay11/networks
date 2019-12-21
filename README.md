@@ -1,6 +1,6 @@
 <a name="networks"></a>
 # networks
-python package for useful network scripts
+Python Network operations for humans
 
 <a name="table-of-contents"></a>
 ## Table of contents
