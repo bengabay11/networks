@@ -12,7 +12,7 @@ def print_status_message(port, is_open):
     print(message)
 
 
-def open_is_port(target, port):
+def port_is_open(target, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     result = sock.connect_ex((target, port))
     return True if result == 0 else False
@@ -28,7 +28,7 @@ def timeout_override(start_time, timeout):
 
 def port_scanning(target, min_port=1, max_port=65536, timeout=None, verbose=True):
     """Perform port scanning on the given target.
-    
+
     :param target: target to scan.
     :param min_port: (optional) the starting port. default=1
     :param max_port: (optional) the ending port. default=65536
@@ -42,7 +42,7 @@ def port_scanning(target, min_port=1, max_port=65536, timeout=None, verbose=True
     for current_port in range(min_port, max_port):
         if timeout_override(start_time, timeout):
             break
-        is_open = open_is_port(target, current_port)
+        is_open = port_is_open(target, current_port)
         if verbose:
             print_status_message(current_port, is_open)
         ports[str(current_port)] = is_open
