@@ -18,17 +18,17 @@ Python Network Operations for Humans
 <a name="traceroute"></a>
 ### Traceroute
 Perform trace to the given host.
-```
+```pycon
 >>> import networks
->>> stations = networks.trace("www.google.com", max_hops=20, timeout=5, verbose=False)
->>> for station in stations:
->>>     print(station)
+>>> stations = networks.trace("www.google.com", max_hops=20, timeout=5)
+>>> stations
+['192.168.1.1', '0.0.0.0', None, '172.18.9.214', '172.17.3.118', None, None, '209.85.241.75', '172.217.18.100']
 ```
 
 <a name="arp-spoofing"></a>
 ### Arp Spoofing
 Perform arp spoofing attack on the given target.
-```
+```pycon
 >>> import networks
 >>> target = "192.168.1.40"
 >>> gateway = "192.168.1.1"
@@ -39,31 +39,29 @@ Perform arp spoofing attack on the given target.
 <a name="#port-scanning"></a>
 ### Port Scanning
 Perform port scanning on the given target.
-```
+```pycon
 >>> import networks
->>> ports = networks.port_scanning("192.168.1.40", min_port=1, max_port=100, timeout=30)
->>> for (port_number, is_open) in ports:
->>>     if is_open:
->>>         print("Discoverd open port: {port}")
+>>> ports = networks.port_scanning("192.168.1.40", min_port=78, max_port=81, timeout=30)
+>>> ports
+{78: False, 79: False, 80: True, 81: False}
 ```
 
 <a name="#ping"></a>
 ### Ping
 Send ICMP packets to the given host.
-```
+```pycon
 >>> import networks
->>> host_responded = networks.ping("www.google.com", count=5, ttl=30, timeout=5)
->>> if host_responded:
->>> print("host: {host} is up!")
+>>> host_up = networks.ping("www.google.com", count=5, ttl=30, timeout=5)
+>>> host_up
+True
 ```
 
 <a name="#ping"></a>
 ### Hosts in segment
 get hosts inside a given segment.
-```
+```pycon
 >>> import networks
 >>> hosts = networks.get_hosts_in_segment("192.168.1.0")
->>> print(f"{len(hosts)} hosts found.")
->>> for host in hosts:
->>> print(f"- {host}")
+>>> hosts
+['192.168.1.1', '192.168.1.40', '192.168.1.23']
 ```
