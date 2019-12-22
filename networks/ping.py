@@ -3,7 +3,7 @@ import time
 from networks.utils import host_is_up
 
 
-def ping(host, count=5, ttl=50, timeout=5, verbose=True):
+def ping(host, count=5, ttl=64, timeout=5, verbose=True):
     """Send ICMP packets to the given host.
     
     :param host: host to send the packets to.
