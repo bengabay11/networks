@@ -1,6 +1,11 @@
 import time
 
-from networks.utils import host_is_up
+from scapy.layers.inet import IP
+
+from networks.utils import send_icmp_packet
+
+
+def get_ttl_from_packet(packet): return packet[IP].ttl
 
 
 def ping(host, count=5, ttl=64, timeout=5, verbose=True):
@@ -17,11 +22,12 @@ def ping(host, count=5, ttl=64, timeout=5, verbose=True):
     host_up = False
     for i in range(count):
         start_time = time.time()
-        host_up = host_is_up(host, timeout, ttl)
+        response_packet = send_icmp_packet(host, timeout, ttl=ttl)
         end_time = time.time()
-        response_time = int(end_time-start_time)
+        response_time = end_time - start_time
+        host_up = bool(response_packet)
         if host_up:
-            message = f"Reply from {host}: time={response_time}s TTL={ttl}"
+            message = f"Reply from {host}: time={response_time}s TTL={response_packet.ttl}"
         else:
             message = "Request timed out."
         if verbose:
