@@ -1,16 +1,9 @@
-from scapy.all import *
 import time
 
-PACKET_VERBOSE = 0
-PACKET_TYPE = "echo-request"
+from networks.utils import host_is_up
 
 
-def send_icmp_packet(host, timeout, ttl):
-    icmp_packet = IP(dst=host, ttl=ttl) / ICMP(type=PACKET_TYPE)
-    return sr1(icmp_packet, timeout=timeout, verbose=PACKET_VERBOSE)
-
-
-def ping(host, count=5, ttl=50, timeout=5, verbose=False):
+def ping(host, count=5, ttl=50, timeout=5, verbose=True):
     """Send ICMP packets to the given host.
     
     :param host: host to send the packets to.
@@ -21,17 +14,16 @@ def ping(host, count=5, ttl=50, timeout=5, verbose=False):
     :return: whether the host responded to one of the packets that sent to him.
     :rtype: bool
     """
-    host_responded = False
+    host_up = False
     for i in range(count):
         start_time = time.time()
-        response_packet = send_icmp_packet(host, timeout, ttl)
+        host_up = host_is_up(host, timeout, ttl)
         end_time = time.time()
         response_time = int(end_time-start_time)
-        if response_packet:
-            host_responded = True
+        if host_up:
             message = f"Reply from {host}: time={response_time}s TTL={ttl}"
         else:
             message = "Request timed out."
         if verbose:
             print(message)
-    return host_responded
+    return host_up
