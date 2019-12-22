@@ -12,7 +12,10 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/bengabay11/networks",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages("networks"),
+    install_requires=[
+        "scapy==2.4.2"
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
