@@ -43,7 +43,7 @@ Perform port scanning on the given target.
 >>> import networks
 >>> ports = networks.port_scanning("192.168.1.40", min_port=78, max_port=81, timeout=30)
 >>> ports
-{78: False, 79: False, 80: True, 81: False, 82: False}
+{78: False, 79: False, 80: True, 81: False}
 ```
 
 <a name="#ping"></a>
