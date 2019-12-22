@@ -47,7 +47,7 @@ def port_scanning(target, min_port=1, max_port=65536, timeout=None, verbose=True
     """
     ports = {}
     scan_threads = []
-    for current_port in range(min_port, max_port):
+    for current_port in range(min_port, max_port + 1):
         scan_thread = Thread(target=scan_port, args=(target, current_port, ports, timeout, verbose))
         scan_thread.start()
         scan_threads.append(scan_thread)
