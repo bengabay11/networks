@@ -8,7 +8,7 @@ def find_host(host, timeout, retry, hosts):
         hosts.append(host)
 
 
-def get_hosts_in_segment(segment, timeout=5, retry=3):
+def get_hosts_in_segment(segment, timeout=7, retry=3):
     """Get all hosts inside a given segment.
 
     :param segment: segment to search on. e.g: 192.168.1.0
