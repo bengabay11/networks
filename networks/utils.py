@@ -5,9 +5,13 @@ PACKET_TYPE = "echo-request"
 PACKET_VERBOSE = 0
 
 
-def host_is_up(host, timeout, ttl=30, retry=1):
+def send_icmp_packet(host, timeout, ttl=64, retry=1):
     my_packet = IP(dst=host, ttl=ttl) / ICMP(type=PACKET_TYPE)
-    response_packet = sr1(my_packet, timeout=timeout, verbose=PACKET_VERBOSE, retry=retry)
+    return sr1(my_packet, timeout=timeout, verbose=PACKET_VERBOSE, retry=retry)
+
+
+def host_is_up(host, timeout, ttl=64, retry=1):
+    response_packet = send_icmp_packet(host, timeout, ttl, retry)
     return True if response_packet else False
 
 

@@ -4,7 +4,7 @@ from networks.utils import wait_for_threads, host_is_up
 
 
 def find_host(host, timeout, retry, hosts):
-    if host_is_up(host, timeout, retry):
+    if host_is_up(host, timeout, retry=retry):
         hosts.append(host)
 
 

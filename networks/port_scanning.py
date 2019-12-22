@@ -30,8 +30,7 @@ def scan_port(target, port_number, ports, timeout=None, verbose=True):
         print_status_message(port_number, is_open)
 
 
-def order_ports(ports):
-    return dict(collections.OrderedDict(sorted(ports.items())))
+def order_ports(ports): return dict(collections.OrderedDict(sorted(ports.items())))
 
 
 def port_scanning(target, min_port=1, max_port=65536, timeout=None, verbose=True):

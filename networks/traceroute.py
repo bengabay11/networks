@@ -6,13 +6,18 @@ TTL_EXCEED = 11
 PACKET_VERBOSE = 0
 
 
+def get_ip_from_packet(packet): return packet[IP].src
+
+
+def reach_host(response_packet): return response_packet[ICMP].type != TTL_EXCEED
+
+
+def seconds_to_ms(seconds): return seconds / 60 * 1000
+
+
 def hop(address, ttl, timeout):
     my_packet = IP(dst=address, ttl=ttl) / ICMP(type=PACKET_TYPE)
     return sr1(my_packet, timeout=timeout, verbose=PACKET_VERBOSE)
-
-
-def get_ip_from_packet(packet):
-    return packet[IP].src
 
 
 def print_status_message(success, ttl, response_time=None, ip=None):
@@ -22,15 +27,7 @@ def print_status_message(success, ttl, response_time=None, ip=None):
     else:
         message = f"{ttl}) Request Time Out."
     print(message)
-
-
-def reach_host(response_packet):
-    return response_packet[ICMP].type != TTL_EXCEED
-
-
-def seconds_to_ms(seconds):
-    return seconds / 60 * 1000
-
+    
 
 def trace(host, max_hops=30, timeout=5, verbose=True):
     """Perform trace to the given host.
