@@ -51,8 +51,8 @@ Perform port scanning on the given target.
 Send ICMP packets to the given host.
 ```pycon
 >>> import networks
->>> host_responded = networks.ping("www.google.com", count=5, ttl=30, timeout=5)
->>> host_responded
+>>> host_up = networks.ping("www.google.com", count=5, ttl=30, timeout=5)
+>>> host_up
 True
 ```
 
