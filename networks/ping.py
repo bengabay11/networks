@@ -1,11 +1,6 @@
 import time
 
-from scapy.layers.inet import IP
-
 from networks.utils import send_icmp_packet
-
-
-def get_ttl_from_packet(packet): return packet[IP].ttl
 
 
 def ping(host, count=5, ttl=64, timeout=5, verbose=True):
