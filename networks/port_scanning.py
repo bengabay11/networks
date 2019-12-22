@@ -1,5 +1,6 @@
-import datetime
+import collections
 import socket
+from threading import Thread
 
 PACKET_TIMEOUT = 2
 
@@ -12,18 +13,28 @@ def print_status_message(port, is_open):
     print(message)
 
 
-def port_is_open(target, port):
+def port_is_open(target, port, timeout=None):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    if timeout:
+        sock.settimeout(timeout)
     result = sock.connect_ex((target, port))
     return True if result == 0 else False
 
 
-def timeout_override(start_time, timeout):
-    if timeout:
-        timeout = datetime.timedelta(seconds=timeout)
-        current_time = datetime.datetime.now()
-        return start_time + timeout <= current_time
-    return False
+def scan_port(target, port_number, ports, timeout=None, verbose=True):
+    is_open = port_is_open(target, port_number, timeout)
+    ports[port_number] = is_open
+    if verbose:
+        print_status_message(port_number, is_open)
+
+
+def order_ports(ports):
+    return collections.OrderedDict(sorted(ports.items()))
+
+
+def wait_for_threads(threads):
+    for thread in threads:
+        thread.join()
 
 
 def port_scanning(target, min_port=1, max_port=65536, timeout=None, verbose=True):
@@ -32,19 +43,17 @@ def port_scanning(target, min_port=1, max_port=65536, timeout=None, verbose=True
     :param target: target to scan.
     :param min_port: (optional) the starting port. default=1
     :param max_port: (optional) the ending port. default=65536
-    :param timeout: (optional) max time in seconds to perform the scan. default=None
+    :param timeout: (optional) time in seconds to wait until a response from the target. default=None
     :param verbose: (optional) print output. default=True
     :return: dictionary of ports. e.g: { "22": False, "80": True }
     :rtype: dict
     """
     ports = {}
-    start_time = datetime.datetime.now()
+    scan_threads = []
     for current_port in range(min_port, max_port):
-        if timeout_override(start_time, timeout):
-            break
-        is_open = port_is_open(target, current_port)
-        if verbose:
-            print_status_message(current_port, is_open)
-        ports[str(current_port)] = is_open
+        scan_thread = Thread(target=scan_port, args=(target, current_port, ports, timeout, verbose))
+        scan_thread.start()
+        scan_threads.append(scan_thread)
         current_port += 1
-    return ports
+    wait_for_threads(scan_threads)
+    return order_ports(ports)
