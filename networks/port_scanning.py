@@ -2,6 +2,8 @@ import collections
 import socket
 from threading import Thread
 
+from networks.utils import wait_for_threads
+
 PACKET_TIMEOUT = 2
 
 
@@ -29,12 +31,7 @@ def scan_port(target, port_number, ports, timeout=None, verbose=True):
 
 
 def order_ports(ports):
-    return collections.OrderedDict(sorted(ports.items()))
-
-
-def wait_for_threads(threads):
-    for thread in threads:
-        thread.join()
+    return dict(collections.OrderedDict(sorted(ports.items())))
 
 
 def port_scanning(target, min_port=1, max_port=65536, timeout=None, verbose=True):
